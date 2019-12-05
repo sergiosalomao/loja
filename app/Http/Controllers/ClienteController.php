@@ -3,29 +3,24 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Empresa;
-use App\Http\Requests\EmpresaRequest;
+use App\Cliente;
+use App\Http\Requests\ClienteRequest;
 use Exception;
 use App\Helpers\Validacao;
 use App\Endereco;
 
-class EmpresaController extends Controller
+class ClienteController extends Controller
 {
-
-    public function index(Request $request, Empresa $empresa)
+  
+    public function index(Request $request, Cliente $cliente)
     {
-        
-        $dados = $empresa->newQuery();
-        if ($request->filled('nome_fantasia')) {
-            $dados->where('nome_fantasia', 'like', '%' . $request->nome_fantasia . '%');
+        $dados = $cliente->newQuery();
+        if ($request->filled('nome')) {
+            $dados->where('nome', 'like', '%' . $request->nome . '%');
         }
 
-        if ($request->filled('razao_social')) {
-            $dados->where('razao_social', $request->razao_social);
-        }
-
-        if ($request->filled('cnpj')) {
-            $dados->where('cnpj', $request->cnpj);
+        if ($request->filled('cpfcnpj')) {
+            $dados->where('cpfcnpj', $request->cpfcnpj);
         }
         
         $dados = $dados->with(['endereco'])->get();
@@ -34,20 +29,13 @@ class EmpresaController extends Controller
         
     }
 
-
-    public function store(EmpresaRequest $request)
+    public function store(ClienteRequest $request)
     {
         $dados = $request->all();
-        $cnpjValidado = Validacao::validaCNPJ($request->cnpj);
-
-        // if (!$cnpjValidado) {
-        //     return response()->json(['msg' => 'CNPJ invalido'], 200);
-        // }
-
         try {
-            $empresa = Empresa::create($dados);
+            $cliente = Cliente::create($dados);
             $endereco = new Endereco($request->all());
-            $empresa->endereco()->save($endereco);
+            $cliente->endereco()->save($endereco);
             return response()->json(['msg' => 'Dados salvos com sucesso', 'dados' => $dados], 200);
         } catch (Exception $e) {
             return response('Erro:' . $e->getMessage(), 500);
@@ -56,20 +44,15 @@ class EmpresaController extends Controller
 
     public function show($id)
     {
-        return response(['dados' => Empresa::findOrFail($id)]);
+        return response(['dados' => Cliente::findOrFail($id)]);
     }
 
     public function update(EmpresaRequest $request, $id)
     {
         $dados = $request->all();
-        $cnpjValidado = Validacao::validaCNPJ($request->cnpj);
-
-        // if (!$cnpjValidado) {
-        //     return response()->json(['msg' => 'CNPJ invalido'], 200);
-        // }
 
         try {
-            $dados = Empresa::findOrFail($id);
+            $dados = Cliente::findOrFail($id);
             $dados->update($dados);
             return response()->json(['msg' => 'Dados atualizados com sucesso', 'dados' => $dados], 200);
         } catch (Exception $e) {
@@ -80,7 +63,7 @@ class EmpresaController extends Controller
     public function destroy($id)
     {
         try {
-            $dados = Empresa::findOrFail($id);
+            $dados = Cliente::findOrFail($id);
             $dados->delete();
             return response()->json(['msg' => 'registro excluido com sucesso', 'dados' => $dados], 200);
         } catch (Exception $e) {
@@ -88,3 +71,4 @@ class EmpresaController extends Controller
         }
     }
 }
+

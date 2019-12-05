@@ -14,8 +14,9 @@ use Illuminate\Http\Request;
 */
 
 Route::group(['middleware' => ['cors']], function () {
-    Route::apiResource('empresas', 'EmpresaController');
+    //Route::apiResource('empresas', 'EmpresaController');
 });
-//Route::apiResource('empresas', 'EmpresaController');
+Route::apiResource('empresas', 'EmpresaController');
+Route::apiResource('clientes', 'ClienteController');
 Route::post('login', 'AuthController@login');
 Route::post('register', 'AuthController@register');

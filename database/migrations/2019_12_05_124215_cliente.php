@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Empresa extends Migration
+class Cliente extends Migration
 {
     /**
      * Run the migrations.
@@ -13,21 +13,22 @@ class Empresa extends Migration
      */
     public function up()
     {
-        Schema::create('empresas',
+        Schema::create(
+            'clientes',
             function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->string('nome_fantasia');
-                $table->string('razao_social');
-                $table->string('cnpj');
-                $table->string('categoria');
+                $table->string('nome');
+                $table->string('tipo');
+                $table->string('cpfcnpj');
                 $table->string('imagem');
-                $table->enum('status', ['A', 'I', 'C']); //A= Ativa | I= Inativa | C = Cancelada
+                $table->enum('status', ['Ativa', 'Inativa', 'Cancelada']);
                 $table->string('email');
-                $table->string('website');
                 $table->timestamps();
+                
             }
         );
     }
+
     /**
      * Reverse the migrations.
      *

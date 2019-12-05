@@ -12,13 +12,6 @@ class Empresa extends Model
         'nome_fantasia',
         'razao_social',
         'cnpj',
-        'cep',
-        'logradouro',
-        'bairro',
-        'numero',
-        'complemento',
-        'cidade',
-        'uf',
         'categoria',
         'imagem',
         'status',
@@ -35,5 +28,9 @@ class Empresa extends Model
     {
         $this->attributes['website'] = strtolower($value);
     }
-    
+
+    public function endereco()
+    {
+        return $this->morphOne('App\Endereco', 'enderecoable');
+    }
 }
