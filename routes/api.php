@@ -22,5 +22,9 @@ Route::apiResource('servicos', 'ServicoController');
 Route::apiResource('fabricantes', 'FabricanteController');
 Route::apiResource('produtos', 'ProdutoController');
 Route::apiResource('imagens', 'ImagemController');
+Route::apiResource('lancamentos', 'LancamentoController');
+
+Route::get('estoque/{produto_id}', 'EstoqueController@show');
+
 Route::post('login', 'AuthController@login');
 Route::post('register', 'AuthController@register');
