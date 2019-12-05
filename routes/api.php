@@ -18,5 +18,6 @@ Route::group(['middleware' => ['cors']], function () {
 });
 Route::apiResource('empresas', 'EmpresaController');
 Route::apiResource('clientes', 'ClienteController');
+Route::apiResource('servicos', 'ServicoController');
 Route::post('login', 'AuthController@login');
 Route::post('register', 'AuthController@register');
